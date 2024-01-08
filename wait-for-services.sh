@@ -23,7 +23,6 @@ echo ${patterns[@]}
 all_services_ready=false
 while ! $all_services_ready; do
     clear
-    sleep $T
     all_services_ready=true
     for ((i = 0; i < ${#services[@]}; i++)); do
         url="${services[i]}"
@@ -37,4 +36,5 @@ while ! $all_services_ready; do
             all_services_ready=false
         fi
     done
+    sleep $T
 done
