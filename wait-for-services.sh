@@ -8,17 +8,21 @@
 
 T=3
 
-# store partA & partB by iterating over arguments 2 by 2
+# store partA, partB and partC by iterating over arguments 3 by 3
 list_partA=()
 list_partB=()
-for ((i=1; i<=$#; i+=2)); do
+list_partC=()
+for ((i=1; i<=$#; i+=3)); do
     list_partA+=("${!i}")
     j=$(($i + 1))
     list_partB+=("${!j}")
+    k=$(($i + 2))
+    list_partC+=("${!k}")
 done 
 
 echo ${list_partA[@]}
 echo ${list_partB[@]}
+echo ${list_partC[@]}
 
 all_services_ready=false
 while ! $all_services_ready; do
@@ -27,24 +31,27 @@ while ! $all_services_ready; do
     for ((i = 0; i < ${#list_partA[@]}; i++)); do
         partA="${list_partA[i]}"
         partB="${list_partB[i]}"
-        if [ -z "$partB" ]; then
-            echo -e "[--] $partA"
-        elif [[ $partA == *http://* ]]; then
-            url=$partA
-            pattern=$partB
+        partC="${list_partC[i]}"
+        if [ -z "$partC" ]; then
+            echo -e "[--] $partB"
+        elif [[ $partB == *http://* ]]; then
+            name=$partA
+            url=$partB
+            pattern=$partC
             if curl --silent $url | grep -E -q $pattern; then
-                echo -e "[OK] $url"
+                echo -e "OK | $name\t$url"
             else
-                echo -e "[KO] $url"
+                echo -e "KO | $name\t$url"
                 all_services_ready=false
             fi
         else
-            host=$partA
-            port=$partB
+            name=$partA
+            host=$partB
+            port=$partC
             if nc -zw3 $host $port; then
-                echo -e "[OK] $host:$port"
+                echo -e "OK | $name\t$host:$port"
             else
-                echo -e "[KO] $host:$port"
+                echo -e "KO | $name\t$host:$port"
                 all_services_ready=false
             fi
         fi
