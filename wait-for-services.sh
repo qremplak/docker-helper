@@ -33,7 +33,7 @@ while ! $all_services_ready; do
         partB="${list_partB[i]}"
         partC="${list_partC[i]}"
         if [ -z "$partC" ]; then
-            echo -e "-- | $partB"
+            echo -e "-- | $partA\t$partB"
         elif [[ $partB == *http://* ]]; then
             name=$partA
             url=$partB
