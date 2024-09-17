@@ -38,7 +38,7 @@ while ! $all_services_ready; do
             name=$partA
             url=$partB
             pattern=$partC
-            if curl --silent $url | grep -E -q $pattern; then
+            if curl --sL $url | grep -E -q $pattern; then
                 echo -e "OK | $name\t$url"
             else
                 echo -e "KO | $name\t$url"
