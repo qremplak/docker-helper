@@ -51,3 +51,9 @@ for ((i = 0; i < ${#list_partA[@]}; i++)); do
         fi
     fi
 done
+
+if $all_services_ready; then
+  exit 0
+else
+  exit 1
+fi
