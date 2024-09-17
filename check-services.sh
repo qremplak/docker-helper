@@ -33,7 +33,7 @@ for ((i = 0; i < ${#list_partA[@]}; i++)); do
         name=$partA
         url=$partB
         pattern=$partC
-        if curl -sL $url | grep -E -q $pattern; then
+        if curl -sL $url | grep -E -q "$pattern"; then
             echo -e "OK | $name\t$url"
         else
             echo -e "KO | $name\t$url"
